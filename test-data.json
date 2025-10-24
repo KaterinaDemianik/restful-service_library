@@ -1,0 +1,44 @@
+{
+  "books": [
+    {
+      "title": "JavaScript для початківців",
+      "author": "Іван Петренко",
+      "type": "book",
+      "year": 2023,
+      "description": "Повний курс JavaScript з нуля до професіонала",
+      "tags": ["програмування", "javascript", "освіта"],
+      "isAvailable": true
+    },
+    {
+      "title": "React в дії",
+      "author": "Марк Тільда",
+      "type": "book",
+      "year": 2022,
+      "description": "Сучасні підходи до розробки інтерфейсів",
+      "tags": ["react", "frontend", "веб-розробка"],
+      "isAvailable": true
+    }
+  ],
+  "articles": [
+    {
+      "title": "Штучний інтелект в медицині",
+      "author": "Доктор Сміт",
+      "type": "article",
+      "year": 2024,
+      "description": "Дослідження використання AI в діагностиці",
+      "tags": ["AI", "медицина", "дослідження"],
+      "isAvailable": true
+    }
+  ],
+  "journals": [
+    {
+      "title": "Комп'ютерні науки та інженеринг",
+      "author": "Наукова редакція",
+      "type": "journal",
+      "year": 2023,
+      "description": "Щомісячний науковий журнал",
+      "tags": ["наука", "технології", "дослідження"],
+      "isAvailable": true
+    }
+  ]
+}
