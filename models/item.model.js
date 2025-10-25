@@ -32,6 +32,14 @@ const itemSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    borrowCount: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    lastBorrowedAt: {
+        type: Date
+    },
     tags: [{
         type: String,
         trim: true

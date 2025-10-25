@@ -21,6 +21,53 @@ class ItemController {
         }
     }
 
+    //borrow
+    static async borrowItem(req, res, next) {
+        try {
+            const result = await ItemDAO.borrow(req.params.id);
+            if (!result.ok) {
+                const map = {
+                    invalid_id: 400,
+                    not_found: 404,
+                    not_available: 409
+                };
+                return res.status(map[result.reason] || 400).json({ success: false, error: result.reason });
+            }
+            res.json({ success: true, data: result.item });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    //return
+    static async returnItem(req, res, next) {
+        try {
+            const result = await ItemDAO.return(req.params.id);
+            if (!result.ok) {
+                const map = {
+                    invalid_id: 400,
+                    not_found: 404,
+                    already_available: 409
+                };
+                return res.status(map[result.reason] || 400).json({ success: false, error: result.reason });
+            }
+            res.json({ success: true, data: result.item });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    //рекомендації за тегами
+    static async recommendItems(req, res, next) {
+        try {
+            const limit = parseInt(req.query.limit) || 5;
+            const recs = await ItemDAO.recommend(req.params.id, limit);
+            res.json({ success: true, data: recs });
+        } catch (error) {
+            next(error);
+        }
+    }
+
     //знайти ел за ID
     static async getItemById(req, res, next) {
         try {
@@ -108,7 +155,7 @@ class ItemController {
         }
     }
 
-    //часткове оновлення (PATCH)
+    //часткове оновлення 
     static async partialUpdateItem(req, res, next) {
         try {
             const errors = validationResult(req);

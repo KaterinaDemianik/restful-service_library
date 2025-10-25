@@ -108,7 +108,7 @@
 			"response": []
 		},
 		{
-			"name": "Часткове оновлення (PATCH)",
+			"name": "Часткове оновлення",
 			"request": {
 				"method": "PATCH",
 				"header": [
@@ -130,6 +130,72 @@
 						"api",
 						"items",
 						"{{itemId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Позичити ел",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/items/{{itemId}}/borrow",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{itemId}}",
+						"borrow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Повернути ел",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/items/{{itemId}}/return",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{itemId}}",
+						"return"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Рекомендації по тегам",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/items/{{itemId}}/recommendations?limit=5",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{itemId}}",
+						"recommendations"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "5"
+						}
 					]
 				}
 			},

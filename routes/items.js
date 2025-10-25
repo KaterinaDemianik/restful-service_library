@@ -115,7 +115,7 @@ router.put(
     ItemController.updateItem
 );
 
-//часткове оновлення (PATCH)
+//часткове оновлення
 router.patch(
     '/:id',
     [
@@ -161,6 +161,43 @@ router.delete(
             .isMongoId().withMessage('невірний формат ID')
     ],
     ItemController.deleteItem
+);
+
+//borrow ел
+router.post(
+    '/:id/borrow',
+    [
+        param('id')
+            .notEmpty().withMessage('ID є обов\'язковим')
+            .isMongoId().withMessage('невірний формат ID')
+    ],
+    ItemController.borrowItem
+);
+
+//return ел
+router.post(
+    '/:id/return',
+    [
+        param('id')
+            .notEmpty().withMessage('ID є обов\'язковим')
+            .isMongoId().withMessage('невірний формат ID')
+    ],
+    ItemController.returnItem
+);
+
+//рекомендації за тегами
+router.get(
+    '/:id/recommendations',
+    [
+        param('id')
+            .notEmpty().withMessage('ID є обов\'язковим')
+            .isMongoId().withMessage('невірний формат ID'),
+        query('limit')
+            .optional()
+            .isInt({ min: 1, max: 50 }).withMessage('limit має бути між 1 та 50')
+            .toInt()
+    ],
+    ItemController.recommendItems
 );
 
 

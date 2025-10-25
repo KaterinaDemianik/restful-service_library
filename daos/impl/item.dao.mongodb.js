@@ -93,6 +93,69 @@ class ItemMongoDBDAO {
         }
     }
 
+    //borrow
+    static async borrow(id) {
+        try {
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return { ok: false, reason: 'invalid_id' };
+            }
+            const item = await Item.findById(id);
+            if (!item) return { ok: false, reason: 'not_found' };
+            if (!item.isAvailable) return { ok: false, reason: 'not_available' };
+
+            item.isAvailable = false;
+            item.borrowCount = (item.borrowCount || 0) + 1;
+            item.lastBorrowedAt = new Date();
+            item.updatedAt = new Date();
+            await item.save();
+            return { ok: true, item: item.toObject() };
+        } catch (error) {
+            console.error(`помилка при позичанні елемента з ID ${id}:`, error);
+            throw error;
+        }
+    }
+
+    //return
+    static async return(id) {
+        try {
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return { ok: false, reason: 'invalid_id' };
+            }
+            const item = await Item.findById(id);
+            if (!item) return { ok: false, reason: 'not_found' };
+            if (item.isAvailable) return { ok: false, reason: 'already_available' };
+            item.isAvailable = true;
+            item.updatedAt = new Date();
+            await item.save();
+            return { ok: true, item: item.toObject() };
+        } catch (error) {
+            console.error(`помилка при поверненні елемента з ID ${id}:`, error);
+            throw error;
+        }
+    }
+
+    //рекомендації за тегами
+    static async recommend(id, limit = 5) {
+        try {
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return [];
+            }
+            const base = await Item.findById(id).lean();
+            if (!base || !base.tags || base.tags.length === 0) return [];
+
+            const recs = await Item.find({
+                _id: { $ne: id },
+                tags: { $in: base.tags }
+            })
+            .sort({ createdAt: -1 })
+            .limit(limit)
+            .lean();
+            return recs;
+        } catch (error) {
+            console.error(`помилка при отриманні рекомендацій для ID ${id}:`, error);
+            throw error;
+        }
+    }
 
     //знайти ел за типом
     static async findByType(type, page = 1, limit = 10) {
