@@ -115,6 +115,43 @@ router.put(
     ItemController.updateItem
 );
 
+//часткове оновлення (PATCH)
+router.patch(
+    '/:id',
+    [
+        param('id')
+            .notEmpty().withMessage('ID є обов\'язковим')
+            .isMongoId().withMessage('невірний формат ID'),
+        body('title')
+            .optional()
+            .trim()
+            .notEmpty().withMessage('назва є обов\'язковою')
+            .isLength({ max: 200 }).withMessage('назва не може бути довшою за 200 символів'),
+        body('author')
+            .optional()
+            .trim()
+            .notEmpty().withMessage('автор є обов\'язковим'),
+        body('type')
+            .optional()
+            .isIn(['book', 'article', 'journal', 'other']).withMessage('невірний тип елемента'),
+        body('year')
+            .optional()
+            .isInt({ min: 1000, max: new Date().getFullYear() })
+            .withMessage(`рік має бути між 1000 та ${new Date().getFullYear()}`),
+        body('description')
+            .optional()
+            .isLength({ max: 2000 }).withMessage('опис не може перевищувати 2000 символів'),
+        body('tags')
+            .optional()
+            .isArray().withMessage('теги мають бути масивом'),
+        body('isAvailable')
+            .optional()
+            .isBoolean().withMessage('isAvailable має бути булевим значенням')
+            .toBoolean()
+    ],
+    ItemController.partialUpdateItem
+);
+
 //видалити
 router.delete(
     '/:id',

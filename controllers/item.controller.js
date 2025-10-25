@@ -108,6 +108,33 @@ class ItemController {
         }
     }
 
+    //часткове оновлення (PATCH)
+    static async partialUpdateItem(req, res, next) {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    success: false,
+                    errors: errors.array()
+                });
+            }
+            const updatedItem = await ItemDAO.update(req.params.id, req.body);
+
+            if (!updatedItem) {
+                return res.status(404).json({
+                    success: false,
+                    error: 'елемент не знайдено'
+                });
+            }
+            res.json({
+                success: true,
+                data: updatedItem
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
     //знайти ел за типом
     static async getItemsByType(req, res, next) {
         try {

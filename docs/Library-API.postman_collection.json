@@ -108,6 +108,34 @@
 			"response": []
 		},
 		{
+			"name": "Часткове оновлення (PATCH)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Лише часткове оновлення назви\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/items/{{itemId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{itemId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Видалити ел",
 			"request": {
 				"method": "DELETE",
